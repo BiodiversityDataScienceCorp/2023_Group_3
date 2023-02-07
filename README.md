@@ -2,7 +2,7 @@
 
 # Group Member Names
 1. Bailie Wynbelt
-2.
+2. 
 3.
 4.
 
