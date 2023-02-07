@@ -7,7 +7,8 @@
 4. Zoe Evans
 
 #Our Favorite Species
-1. Bailie
+1. Bailie - Bouteloua gracilis
+Bouteloua gracilis, otherwise known as Blue Grama is a warm grass species that is found throughout Arizona. The grass has three “comb” like spikes that resemble a fluffy dog tail.
 
 
 2. Hailey- Ailuropoda melanoleuca- Panda Bears
