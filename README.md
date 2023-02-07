@@ -11,7 +11,6 @@
 
 
 2. Hailey- Ailuropoda melanoleuca- Panda Bears
-Panda Bears try to keep their mountain forests healthy by spreading seeds in their droppings, which helps vegetation to thrive. Panda Bear can camouflauge. / 
 Panda Bears try to keep their mountain forests healthy by spreading seeds in their droppings, which helps vegetation to thrive. Panda Bear can camouflauge. / /
 
 
