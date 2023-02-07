@@ -3,8 +3,8 @@
 # Group Member Names
 1. Bailie Wynbelt
 2.
-3.
-4.
+3. Josie Graydon
+4. Zoe Evans
 
 #Our Favorite Species
 1. Bailie
@@ -13,7 +13,9 @@
 2. Hailey
 
 
-3. Josie
+3. Josie - Pycnopodia helianthoides
+This species AKA the sunflower sea star, lives along the Western coast of North America. It has multiple arms and comes in a variety of colors. They have fallen victim to Sea Star Wasting Disease.
 
 
-4. Zoe
+4. Zoe - African Savannah Elephant
+I saw them in Tanzania and fell in love! They're just so cute :)
