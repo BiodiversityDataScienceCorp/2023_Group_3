@@ -12,7 +12,7 @@ Bouteloua gracilis, otherwise known as Blue Grama is a warm grass species that i
 
 
 2. Hailey- Ailuropoda melanoleuca- Panda Bears
-Panda Bears try to keep their mountain forests healthy by spreading seeds in their droppings, which helps vegetation to thrive. Panda Bear can camouflage./
+Panda Bears try to keep their mountain forests healthy by spreading seeds in their droppings, which helps vegetation to thrive. Panda Bear can camouflage.
 
 
 3. Josie - Pycnopodia helianthoides
