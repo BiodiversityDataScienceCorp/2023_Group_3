@@ -2,11 +2,11 @@
 
 # Group Member Names
 1. Bailie Wynbelt
-2.Hailey Park
+2. Hailey Park
 3. Josie Graydon
 4. Zoe Evans
 
-#Our Favorite Species
+# Our Favorite Species
 1. Bailie - Bouteloua gracilis
 Bouteloua gracilis, otherwise known as Blue Grama is a warm grass species that is found throughout Arizona. The grass has three “comb” like spikes that resemble a fluffy dog tail.
 
