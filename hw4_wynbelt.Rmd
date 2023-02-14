@@ -91,4 +91,4 @@ ggplot() +
 ```
 
 ## What are occurrence points ?
-1. Occurrence points are locations where a species can be found/spotted..
+1. Occurrence points are locations where a species can be found/spotted.
