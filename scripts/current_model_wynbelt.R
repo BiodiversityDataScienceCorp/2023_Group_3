@@ -5,8 +5,10 @@
 
 install.packages("spocc")
 install.packages("tidyverse") 
+install.packages("readr")
 library(spocc)
 library(tidyverse)
+library(readr)
 
 ## Pulling data from gbif
 snailquery <- occ(query = "Ashmunella levettei", 
@@ -42,7 +44,7 @@ cleanSnail <- snail %>%
                           sep = "/")) %>% 
   distinct(location, .keep_all = TRUE)
 
-## Save data
-write.csv(cleanSnail, "data\\snail_data.csv")
+## Save clean data
+write.csv(snail, file = "clean_snail_data.csv", row.names = TRUE)
 
 
