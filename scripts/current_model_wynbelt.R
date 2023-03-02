@@ -43,8 +43,6 @@ cleanSnail <- snail %>%
                           sep = "/")) %>% 
   distinct(location, .keep_all = TRUE)
 
-#Save clean data
-write.csv(snail, file = "clean_snail_data.csv", row.names = TRUE)
 
 ##SECTION 2: Create current SDM
 
@@ -61,10 +59,10 @@ library(tidyverse)
 library(rJava)
 library(maps)
 
-### Section 1: Obtaining and Formatting Occurence / Climate Data ### 
+### Section 2.1: Obtaining and Formatting Occurence / Climate Data ### 
 
 #read occurrence data 
-snailDataNotCoords <- read_csv("output/clean_snail_data.csv") %>% 
+snailDataNotCoords <- cleanSnail %>% 
   dplyr::select(longitude,latitude)
 
 # convert to spatial points, necessary for modelling and mapping
@@ -73,35 +71,25 @@ snailDataSpatialPts <- SpatialPoints(snailDataNotCoords,
 
 # obtain climate data: use get data only once
 currentEnv <- getData("worldclim", var="bio", res=2.5, path="data/") # current data
-# see what each variable is here: https://www.worldclim.org/data/bioclim.html#:~:text=The%20bioclimatic%20variables%20represent%20annual,the%20wet%20and%20dry%20quarters).
-#?raster::getData
+
 
 # create a list of the files in wc2-5 filder so we can make a raster stack
-# define raster: https://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/what-is-raster-data.htm 
-#          raster consists of a matrix of cells (or pixels) organized into rows and columns
-#         (or a grid) where each cell contains a value representing information, such as 
-#         temperature. Rasters are digital aerial photographs, imagery from satellites, 
-#         digital pictures, or even scanned maps.
 climList <- list.files(path = "data/wc2-5/", pattern = ".bil$", 
                        full.names = T)  # '..' leads to the path above the folder where the .rmd file is located
 
 # stacking the bioclim variables to process them at one go
 clim <- raster::stack(climList)
 
-plot(clim[[12]]) # show one env layer ( = annual percepitation) (sorry not using ggplot here just for speed)
-plot(ranaDataSpatialPts, add = TRUE) # looks good, we can see where our data is
+plot(clim[[12]]) # show one env layer 
+plot(snailDataSpatialPts, add = TRUE) # looks good, we can see where our data is
 
 
-### Section 2: Adding Pseudo-Absence Points ### 
-# Create pseudo-absence points (making them up, using 'background' approach)
-# first we need a raster layer to make the points up on, just picking 1
+### Section 1.2: Adding Pseudo-Absence Points ### 
 
 mask <- raster(clim[[1]]) # mask is the raster object that determines the area where we are generating pts
 
-# determine geographic extent of our data (so we generate random points reasonably nearby)
-geographicExtent <- extent(x = ranaDataSpatialPts)
-
-# Random points for background (same number as our observed points we will use )
+# determine geographic extent of our data 
+geographicExtent <- extent(x = snailDataSpatialPts)
 
 #IMPORTANT! There should be at least 1000 background points.
 #If your data set has fewer than 1000 background points, replace 'n'
@@ -109,7 +97,7 @@ geographicExtent <- extent(x = ranaDataSpatialPts)
 
 set.seed(45) # seed set so we get the same background points each time we run this code 
 backgroundPoints <- randomPoints(mask = mask, 
-                                 n = nrow(ranaDataNotCoords), # n should be at least 1000 (even if your sp has fewer than 1000 pts)
+                                 n = nrow(snailDataNotCoords), # n should be at least 1000 (even if your sp has fewer than 1000 pts)
                                  ext = geographicExtent, 
                                  extf = 1.25, # draw a slightly larger area than where our sp was found (ask katy what is appropriate here)
                                  warn = 0) # don't complain about not having a coordinate reference system
@@ -117,9 +105,9 @@ backgroundPoints <- randomPoints(mask = mask,
 # add col names (can click and see right now they are x and y)
 colnames(backgroundPoints) <- c("longitude", "latitude")
 
-### Section 3: Collate Env Data and Point Data into Proper Model Formats ### 
+### Section 1.3: Collate Env Data and Point Data into Proper Model Formats ### 
 # Data for observation sites (presence and background), with climate data
-occEnv <- na.omit(raster::extract(x = clim, y = ranaDataNotCoords))
+occEnv <- na.omit(raster::extract(x = clim, y = snailDataNotCoords))
 absenceEnv<- na.omit(raster::extract(x = clim, y = backgroundPoints))
 
 # Create data frame with presence training data and background points (0 = abs, 1 = pres)
@@ -127,9 +115,9 @@ presenceAbsenceV <- c(rep(1, nrow(occEnv)), rep(0, nrow(absenceEnv)))
 presenceAbsenceEnvDf <- as.data.frame(rbind(occEnv, absenceEnv)) 
 
 
-### Section 4: Create SDM with Maxent ### 
+### Section 1.4: Create SDM with Maxent ### 
 # create a new folder called maxent_outputs
-ranaSDM <- dismo::maxent(x = presenceAbsenceEnvDf, ## env conditions
+snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf, ## env conditions
                          p = presenceAbsenceV,   ## 1:presence or 0:absence
                          path=paste("output/maxent_outputs"), ## folder for maxent output; 
                          # if we do not specify a folder R will put the results in a temp file, 
@@ -139,32 +127,30 @@ ranaSDM <- dismo::maxent(x = presenceAbsenceEnvDf, ## env conditions
 
 
 ### Section 5: Plot the Model ###
-# clim is huge and it isn't reasonable to predict over whole world
-# first we will make it smaller
 
 predictExtent <- 3.25 * geographicExtent # choose here what is reasonable for your pts (where you got background pts from)
 geographicArea <- crop(clim, predictExtent, snap = "in") # 
 # look at what buffers are, maybe this is where mapping problem is
 # crop clim to the extent of the map you want
-ranaPredictPlot <- raster::predict(ranaSDM, geographicArea) # predict the model to 
+snailPredictPlot <- raster::predict(snailSDM, geographicArea) # predict the model to 
 
 # for ggplot, we need the prediction to be a data frame 
-raster.spdf <- as(ranaPredictPlot, "SpatialPixelsDataFrame")
-ranaPredictDf <- as.data.frame(raster.spdf)
+raster.spdf <- as(snailPredictPlot, "SpatialPixelsDataFrame")
+snailPredictDf <- as.data.frame(raster.spdf)
 
 # plot in ggplot
 wrld <- ggplot2::map_data("world")
 
-xmax <- max(ranaPredictDf$x)
-xmin <- min(ranaPredictDf$x)
-ymax <- max(ranaPredictDf$y)
-ymin <- min(ranaPredictDf$y)
+xmax <- max(snailPredictDf$x)
+xmin <- min(snailPredictDf$x)
+ymax <- max(snailPredictDf$y)
+ymin <- min(snailPredictDf$y)
 
 dev.off()
 ggplot() +
   geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
                fill = "grey75") +
-  geom_raster(data = ranaPredictDf, aes(x = x, y = y, fill = layer)) + 
+  geom_raster(data = snailPredictDf, aes(x = x, y = y, fill = layer)) + 
   scale_fill_gradientn(colors = terrain.colors(10, rev = T)) +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax), expand = F) + # expand = F fixes weird margin
   scale_size_area() +
@@ -174,9 +160,6 @@ ggplot() +
        y = "latitude",
        fill = "Environmental \nSuitability") + # \n is a line break
   theme(legend.box.background=element_rect(),legend.box.margin=margin(5,5,5,5)) 
-
-#save plot to file
-#more on ggsave here: https://ggplot2.tidyverse.org/reference/ggsave.html
 
 #Live code ggsave here:
 ggsave(filename = "currentSDM.jpg", 
