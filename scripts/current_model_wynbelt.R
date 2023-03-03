@@ -20,6 +20,8 @@ snailquery <- occ(query = "Ashmunella levettei",
 #Drill down to get the data 
 snail <- snailquery$gbif$data$Ashmunella_levettei
 
+write.csv(x = snail, file = "data/rawSnail.csv")
+
 #Finalize the clean data
 cleanSnail <- snail %>% 
   filter(latitude != "NA", 
@@ -30,6 +32,13 @@ cleanSnail <- snail %>%
                           sep = "/")) %>% 
   distinct(location, .keep_all = TRUE)
 
+#writecsv - lat, long, date
+install.packages("dpylr")
+library(dpylr)
+cleanSnail2 <- cleanSnail %>% 
+  dpylr::select(latitude, longitude, dateIdentified)
+
+write.csv(x = cleanSnail, file = "data/cleanSnail.csv")
 
 ##SECTION 2: Create current SDM
 
@@ -107,7 +116,7 @@ snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf,
 
 ### Section 1.5: Plot the Model ###
 
-predictExtent <- 3.25 * geographicExtent 
+predictExtent <- 1.25 * geographicExtent 
 geographicArea <- crop(clim, predictExtent, snap = "in") 
 snailPredictPlot <- raster::predict(snailSDM, geographicArea)  
 
@@ -123,11 +132,12 @@ xmin <- min(snailPredictDf$x)
 ymax <- max(snailPredictDf$y)
 ymin <- min(snailPredictDf$y)
 
-dev.off()
+#dev.off() - use if there are errors w/ ggplot (cannot plot)
 ggplot() +
   geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
                fill = "grey75") +
   geom_raster(data = snailPredictDf, aes(x = x, y = y, fill = layer)) + 
+  geom_point(data = snailDataNotCoords, aes(x = longitude, y =latitude)) +
   scale_fill_gradientn(colors = terrain.colors(10, rev = T)) +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax), expand = F) + # expand = F fixes weird margin
   scale_size_area() +
@@ -142,7 +152,7 @@ ggplot() +
 ggsave(filename = "currentSDM.jpg", 
        plot=last_plot(), 
        path="output", 
-       width=1600, 
+       width=1800, 
        height=800, 
        units="px")
 
@@ -156,8 +166,6 @@ futureEnv <- raster::getData(name = 'CMIP5', var = 'bio', res = 2.5,
                              rcp = 45, model = 'IP', year = 70, path="data") 
 
 names(futureEnv) = names(currentEnv)
-plot(currentEnv[[1]])
-plot(futureEnv[[1]])
 
 geographicAreaFutureC5 <- crop(futureEnv, predictExtent)
 
@@ -182,7 +190,8 @@ ymin <- min(snailPredictDfFutureC5$y)
 ggplot() +
   geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
                fill = "grey75") +
-  geom_raster(data = snailPredictDfFutureC5, aes(x = x, y = y, fill = layer)) + 
+  geom_raster(data = snailPredictDfFutureC5, aes(x = x, y = y, fill = layer)) +
+  geom_point(data = snailDataNotCoords, aes(x = longitude, y =latitude)) +
   scale_fill_gradientn(colors = terrain.colors(10, rev = T)) +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax), expand = F) +
   scale_size_area() +
@@ -199,7 +208,7 @@ ggplot() +
 ggsave(filename = "futureSDM.jpg", 
        plot=last_plot(), 
        path="output", 
-       width=1600, 
+       width=1800, 
        height=800, 
        units="px")
 
