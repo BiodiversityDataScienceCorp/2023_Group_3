@@ -20,7 +20,6 @@ snailquery <- occ(query = "Ashmunella levettei",
 #Drill down to get the data 
 snail <- snailquery$gbif$data$Ashmunella_levettei
 
-write.csv(x = snail, file = "data/rawSnail.csv")
 
 #Finalize the clean data
 cleanSnail <- snail %>% 
@@ -33,12 +32,10 @@ cleanSnail <- snail %>%
   distinct(location, .keep_all = TRUE)
 
 #writecsv - lat, long, date
-install.packages("dpylr")
-library(dpylr)
 cleanSnail2 <- cleanSnail %>% 
-  dpylr::select(latitude, longitude, dateIdentified)
+  select(latitude, longitude)
 
-write.csv(x = cleanSnail, file = "data/cleanSnail.csv")
+utils::write.csv(x = cleanSnail2, file = "data/cleanSnail.csv")
 
 ##SECTION 2: Create current SDM
 
