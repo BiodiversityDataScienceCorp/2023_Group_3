@@ -20,19 +20,6 @@ snailquery <- occ(query = "Ashmunella levettei",
 #Drill down to get the data 
 snail <- snailquery$gbif$data$Ashmunella_levettei
 
-#Deal with NAs
-noNA <- snail %>% 
-  filter(latitude != "NA",
-         longitude != "NA")
-
-#Remove duplicates
-noDupSn <- noNA %>% 
-  mutate(location = paste(latitude, 
-                          longitude,
-                          dateIdentified,
-                          sep = "/")) %>% 
-  distinct(location, .keep_all = TRUE)
-
 #Finalize the clean data
 cleanSnail <- snail %>% 
   filter(latitude != "NA", 
@@ -49,13 +36,11 @@ cleanSnail <- snail %>%
 #packages
 install.packages("dismo")
 install.packages("maptools")
-install.packages("tidyverse")
 install.packages("rJava")
 install.packages("maps")
 
 library(dismo)
 library(maptools)
-library(tidyverse)
 library(rJava)
 library(maps)
 
@@ -75,18 +60,15 @@ currentEnv <- getData("worldclim", var="bio", res=2.5, path="data/") # current d
 
 # create a list of the files in wc2-5 filder so we can make a raster stack
 climList <- list.files(path = "data/wc2-5/", pattern = ".bil$", 
-                       full.names = T)  # '..' leads to the path above the folder where the .rmd file is located
+                       full.names = T)  
 
 # stacking the bioclim variables to process them at one go
 clim <- raster::stack(climList)
 
-plot(clim[[12]]) # show one env layer 
-plot(snailDataSpatialPts, add = TRUE) # looks good, we can see where our data is
-
-
 ### Section 1.2: Adding Pseudo-Absence Points ### 
 
-mask <- raster(clim[[1]]) # mask is the raster object that determines the area where we are generating pts
+# mask is the raster object that determines the area where we are generating pts
+mask <- raster(clim[[1]]) 
 
 # determine geographic extent of our data 
 geographicExtent <- extent(x = snailDataSpatialPts)
@@ -95,12 +77,12 @@ geographicExtent <- extent(x = snailDataSpatialPts)
 #If your data set has fewer than 1000 background points, replace 'n'
 # below, so it reads 'n=1000'
 
-set.seed(45) # seed set so we get the same background points each time we run this code 
+set.seed(45) 
 backgroundPoints <- randomPoints(mask = mask, 
-                                 n = nrow(snailDataNotCoords), # n should be at least 1000 (even if your sp has fewer than 1000 pts)
+                                 n = 1000, 
                                  ext = geographicExtent, 
-                                 extf = 1.25, # draw a slightly larger area than where our sp was found (ask katy what is appropriate here)
-                                 warn = 0) # don't complain about not having a coordinate reference system
+                                 extf = 1, 
+                                 warn = 0)
 
 # add col names (can click and see right now they are x and y)
 colnames(backgroundPoints) <- c("longitude", "latitude")
@@ -117,22 +99,17 @@ presenceAbsenceEnvDf <- as.data.frame(rbind(occEnv, absenceEnv))
 
 ### Section 1.4: Create SDM with Maxent ### 
 # create a new folder called maxent_outputs
-snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf, ## env conditions
-                         p = presenceAbsenceV,   ## 1:presence or 0:absence
-                         path=paste("output/maxent_outputs"), ## folder for maxent output; 
-                         # if we do not specify a folder R will put the results in a temp file, 
-                         # and it gets messy to read those. . .
-                         
-)
+snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf, 
+                         p = presenceAbsenceV,  
+                         path=paste("output/maxent_outputs"),)
 
 
-### Section 5: Plot the Model ###
 
-predictExtent <- 3.25 * geographicExtent # choose here what is reasonable for your pts (where you got background pts from)
-geographicArea <- crop(clim, predictExtent, snap = "in") # 
-# look at what buffers are, maybe this is where mapping problem is
-# crop clim to the extent of the map you want
-snailPredictPlot <- raster::predict(snailSDM, geographicArea) # predict the model to 
+### Section 1.5: Plot the Model ###
+
+predictExtent <- 3.25 * geographicExtent 
+geographicArea <- crop(clim, predictExtent, snap = "in") 
+snailPredictPlot <- raster::predict(snailSDM, geographicArea)  
 
 # for ggplot, we need the prediction to be a data frame 
 raster.spdf <- as(snailPredictPlot, "SpatialPixelsDataFrame")
@@ -155,7 +132,7 @@ ggplot() +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax), expand = F) + # expand = F fixes weird margin
   scale_size_area() +
   borders("state") +
-  labs(title = "SDM of R. boylii Under Current Climate Conditions",
+  labs(title = "SDM of A. levettei Under Current Climate Conditions",
        x = "longitude",
        y = "latitude",
        fill = "Environmental \nSuitability") + # \n is a line break
@@ -168,6 +145,64 @@ ggsave(filename = "currentSDM.jpg",
        width=1600, 
        height=800, 
        units="px")
+
+## SECTION 3: FUTURE SDM 
+
+# get climate data 
+currentEnv <- clim
+
+# to see the specifics 
+futureEnv <- raster::getData(name = 'CMIP5', var = 'bio', res = 2.5,
+                             rcp = 45, model = 'IP', year = 70, path="data") 
+
+names(futureEnv) = names(currentEnv)
+plot(currentEnv[[1]])
+plot(futureEnv[[1]])
+
+geographicAreaFutureC5 <- crop(futureEnv, predictExtent)
+
+
+# predict  model onto future climate
+snailPredictPlotFutureC5 <- raster::predict(snailSDM, geographicAreaFutureC5)  
+
+# for ggplot, we need the prediction to be a data frame 
+raster.spdfFutureC5 <- as(snailPredictPlotFutureC5, "SpatialPixelsDataFrame")
+snailPredictDfFutureC5 <- as.data.frame(raster.spdfFutureC5)
+
+# plot in ggplot
+wrld <- ggplot2::map_data("world")
+
+# get our lat/lon boundaries
+xmax <- max(snailPredictDfFutureC5$x)
+xmin <- min(snailPredictDfFutureC5$x)
+ymax <- max(snailPredictDfFutureC5$y)
+ymin <- min(snailPredictDfFutureC5$y)
+
+
+ggplot() +
+  geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
+               fill = "grey75") +
+  geom_raster(data = snailPredictDfFutureC5, aes(x = x, y = y, fill = layer)) + 
+  scale_fill_gradientn(colors = terrain.colors(10, rev = T)) +
+  coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax), expand = F) +
+  scale_size_area() +
+  borders("world") +
+  borders("state") +
+  labs(title = "SDM of A. levettei Under CMIP 5 Climate Conditions",
+       x = "longitude",
+       y = "latitude",
+       fill = "Env Suitability") +
+  theme(legend.box.background=element_rect(),legend.box.margin=margin(5,5,5,5)) 
+
+
+#Live ggsave here:
+ggsave(filename = "futureSDM.jpg", 
+       plot=last_plot(), 
+       path="output", 
+       width=1600, 
+       height=800, 
+       units="px")
+
 
 
 
