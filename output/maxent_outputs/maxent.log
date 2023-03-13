@@ -1,0 +1,35 @@
+Mon Mar 13 23:18:40 UTC 2023
+MaxEnt version 3.4.3
+Reading file absence
+readGrid: max memory 518979584, total allocated 97320960, free 71937424, used 25383536, increment -1486224
+Reading samples from presence
+Read samples: max memory 518979584, total allocated 97320960, free 67148704, used 30172256, increment 4788720
+Adding samples to background in feature space
+Command line used:  autorun -e output/maxent_outputs/absence -o output/maxent_outputs -s output/maxent_outputs/presence -z
+Command line to repeat: java density.MaxEnt nowarnings noprefixes outputdirectory=output/maxent_outputs samplesfile=output/maxent_outputs/presence environmentallayers=output/maxent_outputs/absence autorun novisible
+Species: species
+Layers: bio1 bio10 bio11 bio12 bio13 bio14 bio15 bio16 bio17 bio18 bio19 bio2 bio3 bio4 bio5 bio6 bio7 bio8 bio9
+Layertypes: Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous
+outputdirectory: output/maxent_outputs
+samplesfile: output/maxent_outputs/presence
+environmentallayers: output/maxent_outputs/absence
+autorun: true
+visible: false
+
+getSamples: max memory 518979584, total allocated 97320960, free 66592088, used 30728872, increment 556616
+Making features
+makeFeatures: max memory 518979584, total allocated 97320960, free 64438592, used 32882368, increment 2153496
+species: 
+Regularization values: linear/quadratic/product: 0.170, categorical: 0.250, threshold: 1.420, hinge: 0.500
+58 samples
+Density: max memory 518979584, total allocated 97320960, free 61239720, used 36081240, increment 3198872
+linearPredictor: max memory 518979584, total allocated 97320960, free 61239720, used 36081240, increment 0
+FeaturedSpace: max memory 518979584, total allocated 97320960, free 61239720, used 36081240, increment 0
+Sequential: max memory 518979584, total allocated 97320960, free 61239720, used 36081240, increment 0
+Initial loss: 6.963189985870238
+500: time = 0.709000 loss = 5.119857
+Resulting gain: 1.8433331333336955
+Projecting...
+Writing file output/maxent_outputs/species.csv
+Time since start: 1.046
+Ending
