@@ -43,4 +43,4 @@ github.R
 data/cmip5/*
 
 data/wc2-5/*
-output/maxent_output/*
+output/maxent_outputs/*
