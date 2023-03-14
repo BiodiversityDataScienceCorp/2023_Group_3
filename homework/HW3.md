@@ -21,4 +21,4 @@ This species AKA the sunflower sea star, lives along the Western coast of North 
 
 4. Zoe - African Savannah Elephant
 I saw them in Tanzania and fell in love! They're just so cute :)
-
+ 
