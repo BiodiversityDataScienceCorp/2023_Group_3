@@ -2,7 +2,7 @@
 
 ## Zoe Evans, Josie Graydon, Hailey Park, and Bailie Wynbelt
 
-![](/cloud/project/photos/huachuca.jpeg)
+![](/cloud/project/photos/huachuca.jpeg) 
 
 # Our Favorite Species
 
