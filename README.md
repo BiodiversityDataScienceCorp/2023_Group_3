@@ -2,7 +2,7 @@
 
 ## Zoe Evans, Josie Graydon, Hailey Park, and Bailie Wynbelt
 
-![](photos/huachuca.jpeg){width="50%"}
+![](photos/huachuca.jpeg)
 
 ## 🐌 Overview
 insert description about species
