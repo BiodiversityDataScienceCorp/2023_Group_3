@@ -2,11 +2,17 @@
 
 ## Zoe Evans, Josie Graydon, Hailey Park, and Bailie Wynbelt
 
-![](photos/huachuca.jpeg)
+<img src="photos/huachuca.jpeg"  width="50%">
 
 ## 🐌 Overview
 insert description about species
 
 ## 📦 Dependencies
 The project uses the following additional R packages:
++ dismo
++ maps
++ maptools
++ rJava
++ spocc
++ tidyverse
 
