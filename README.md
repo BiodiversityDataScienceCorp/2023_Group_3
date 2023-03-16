@@ -12,6 +12,7 @@ The project uses the following additional R packages:
 + dismo
 + maps
 + maptools
++ readr
 + rJava
 + spocc
 + tidyverse
