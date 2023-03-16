@@ -1,8 +1,8 @@
-# Repository for Making Species Occurrence and Distribution maps for the Huachuca Woodland Snail (*Ashmenlla levettei*)
+# Repository for Making Species Occurrence and Distribution maps for the Huachuca Woodland Snail (*Ashmunella levettei*)
 
 ## Zoe Evans, Josie Graydon, Hailey Park, and Bailie Wynbelt
 
-![](/cloud/project/photos/huachuca.jpeg) 
+![](/cloud/project/photos/huachuca.jpeg)
 
 # Our Favorite Species
 
