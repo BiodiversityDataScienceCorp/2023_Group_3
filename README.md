@@ -8,7 +8,7 @@
 insert description about species
 
 ## 📦 Dependencies
-The project uses the following additional R packages:
+The project uses the following additional R packages (will be installed with file when needed):
 + dismo
 + maps
 + maptools
@@ -17,3 +17,13 @@ The project uses the following additional R packages:
 + spocc
 + tidyverse
 
+## 📁 Structure
+
+### data
++ `snaildata.csv`: data harvested from [GBIF](https://www.gbif.org/) and [iNaturalist](https://www.inaturalist.org) for _Ashmunella levettei_. 
+
+### homework
++ organization of each of our homeworks
++ HW 3: group testing out collaborating on Posit, using Command-Push-Pull to write each of our names and favorite species within an R Markdown file.
++ HW 4: creating occurrence maps for _A. levettei_.
++ HW 6: creating current and future SDMs for _A. levettei_.
