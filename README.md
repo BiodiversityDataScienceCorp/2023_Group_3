@@ -30,7 +30,7 @@ The project uses the following additional R packages (will be installed with fil
 
 ### output
 + maxent_outputs
- + `maxent.log`
+  + `maxent.log`
 + `cleansnail.csv`: a cleaned up version of `snaildata.csv`
 + currentsnailSDM.jpg: a picture of the current _A. levettei_ SDM map we generated
 + futureSnailSDM.jpg: a picture of the future _A. levettei_ SDM map we generated for 70 years from now
