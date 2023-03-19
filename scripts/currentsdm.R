@@ -1,9 +1,10 @@
 #Current SDM Model
-#3/18/20233
+#03/18/20233
 #Synthesized from team member's individual scripts
+#Bailie Wynbelt, Hailey Park, Zoe Evans, Josie Graydon
 
 
-# SECTION 1: Download/load required packages and read in clean snail data
+### SECTION 1: Download/load required packages and read in clean snail data ###
 
 install.packages("dismo")
 install.packages("maptools")
@@ -21,7 +22,7 @@ library(spocc)
 
 cleanSnail <- read_csv("data/snaildata.csv")
 
-# SECTION 2: Prepare data for plotting
+### SECTION 2: Prepare data for plotting ###
 snailDataNotCoords <- cleanSnail %>%  #select only longitude and latitude 
   select(longitude,latitude)
 
@@ -40,7 +41,7 @@ climList <- list.files(path = "data/wc2-5/", pattern = ".bil$",
 clim <- raster::stack(climList) 
 
 
-# SECTION 3: Create pseudo-absence points and generate geographic extent for SDM model
+### SECTION 3: Create pseudo-absence points and generate geographic extent for SDM model ###
 
 # Mask is the raster object that determines the area where we are generating pts
 mask <- raster(clim[[1]])
@@ -83,9 +84,10 @@ snailPredictPlot <- raster::predict(snailSDM, geographicArea)
 raster.spdf <- as(snailPredictPlot, "SpatialPixelsDataFrame")
 snailPredictDf <- as.data.frame(raster.spdf)
 
-# SECTION 4: Plot current SDM in ggplot
+### SECTION 4: Plot current SDM in ggplot ###
 wrld <- ggplot2::map_data("world")
 
+# Produce latitude and longitude boundaries
 xmax <- max(snailPredictDf$x)
 xmin <- min(snailPredictDf$x)
 ymax <- max(snailPredictDf$y)
