@@ -29,6 +29,8 @@ cleanSnail <- snail %>%
   mutate(location = paste(latitude, longitude, dateIdentified, sep = "/")) %>%
   distinct(location, .keep_all = TRUE)
 
+### SECTION 2: Plot occurrences with ggplot ###
+
 # Set longitude and latitude boundaires
 xmax <- max(cleanSnail$longitude)
 xmin <- min(cleanSnail$longitude)
