@@ -3,7 +3,7 @@
 ## Zoe Evans, Josie Graydon, Hailey Park, and Bailie Wynbelt
 
 <img src="photos/huachuca.jpeg"  width="50%">
-https://www.inaturalist.org/photos/6391145
+https://www.inaturalist.org/photos/6391145 
 
 ## 🐌 Overview
 The __Huachuca Woodland Snail__ (_Ashmunella levettei_), is a snail species primarily found in the Huachuca Mountains in Arizona, USA. It has also historically been found in parts of New Mexico and northwestern Texas (Pilsbry and Ferriss, 1909; Reeder, 1945; Fairbanks, 1979). _A. levettei_ is within the phylum Mollusca, class Gastropoda, subclass Heterobranchia, order Stylommatophora, and family Polygyridae.
