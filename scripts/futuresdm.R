@@ -98,6 +98,7 @@ xmin <- min(snailPredictDfFutureC5$x)
 ymax <- max(snailPredictDfFutureC5$y)
 ymin <- min(snailPredictDfFutureC5$y)
 
+#create futuresdm using ggplot and save to jpg
 ggplot() +
   geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
                fill = "grey75") +

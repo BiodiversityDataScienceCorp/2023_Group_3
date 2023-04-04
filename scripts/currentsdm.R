@@ -95,7 +95,7 @@ ymin <- min(snailPredictDf$y)
 
 ##dev.off() #use if ggplot is not working, otherwise this is not needed
 
-#create currentsdm using ggplot
+#create currentsdm using ggplot and save to jpg
 ggplot() +
   geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
                fill = "grey75") +
