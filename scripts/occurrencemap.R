@@ -44,6 +44,12 @@ ymax <- max(cleanSnail$latitude)
 ymin <- min(cleanSnail$latitude)
 
 wrld <- ggplot2::map_data("world")
+states <- ggplot2::map_data("state")
+
+state_label <- states %>%
+  group_by(region) %>%
+  summarize(mean_long = mean(range(long)),
+            mean_lat = mean(range(lat)))
 
 # Plot occurrence data using ggplot
 ggplot() +
@@ -52,7 +58,8 @@ ggplot() +
   labs(title="Species Occurrences of A. levettei", x="longitude", y="latitude") +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax)) +
   scale_size_area() +
-  borders("state")
+  borders("state") +
+  geom_text(data=state_label, aes(x=mean_long, y=mean_lat, label=region))
 
 ggsave(file="occurrencemap.jpg",
        plot=last_plot(), 
