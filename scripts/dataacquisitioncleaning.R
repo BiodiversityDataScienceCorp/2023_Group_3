@@ -23,7 +23,10 @@ snail<-snailquery$gbif$data$Ashmunella_levettei
 
 ### SECTION 3: Clean the snail data and export to csv ###
 
-# Clean the snail data
+# Clean the snail data - 
+#remove NA's in latitude and longitude with filter() function
+#using the mutate() function, create a new column called location with longitude/latitude/dateIdentified that is seprated by /
+#keep only distinct locations with the distinct() function
 cleanSnail <- snail%>% 
   filter(latitude !="NA", longitude !="NA") %>% 
   mutate(location = paste(latitude, longitude,dateIdentified, sep = "/" ))%>% 
