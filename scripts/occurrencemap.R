@@ -1,7 +1,7 @@
 #Occurrence Map
 #03/18/2023
 #Synthesized from team member's individual scripts
-#Bailie Wynbelt, Hailey Park, Zoe Evans, Josie Graydon#Install packages and load libraries:
+#Bailie Wynbelt, Hailey Park, Zoe Evans, Josie Graydon
 
 ### SECTION 1: Install needed packages and query snail data from GBIF ###
 
@@ -15,15 +15,21 @@ snailquery <- occ(query = "Ashmunella levettei", from = "gbif", limit = 4000)
 # Drill down to get the data using "$", and show from Env window
 snail <- snailquery$gbif$data$Ashmunella_levettei
 
-# Deal with NAs
+# Remove NA's in the latitude and longitude columns using the filter() function
 noNA <- snail %>% 
   filter(latitude != "NA", longitude != "NA")
 
-# Remove duplicates
-noDupSn <- noNA %>% mutate(location = paste(latitude, longitude, dateIdentified, sep = "/")) %>%
+#Remove duplicates
+#using the mutate() function, create a new column called location with longitude/latitude/dateIdentified that is seprated by /
+#keep only distinct locations with the distinct() function
+noDupSn <- noNA %>% 
+  mutate(location = paste(latitude, longitude, dateIdentified, sep = "/")) %>%
   distinct(location, .keep_all = TRUE)
 
 # All required data cleaning in one chunk of code
+#remove NA's in latitude and longitude with filter() function
+#using the mutate() function, create a new column called location with longitude/latitude/dateIdentified that is seprated by /
+#keep only distinct locations with the distinct() function
 cleanSnail <- snail %>% 
   filter(latitude != "NA", longitude != "NA") %>%
   mutate(location = paste(latitude, longitude, dateIdentified, sep = "/")) %>%
@@ -31,7 +37,7 @@ cleanSnail <- snail %>%
 
 ### SECTION 2: Plot occurrences with ggplot ###
 
-# Set longitude and latitude boundaires
+# Set longitude and latitude boundaires for the occurrence map
 xmax <- max(cleanSnail$longitude)
 xmin <- min(cleanSnail$longitude)
 ymax <- max(cleanSnail$latitude)
@@ -39,7 +45,7 @@ ymin <- min(cleanSnail$latitude)
 
 wrld <- ggplot2::map_data("world")
 
-# Plot occurrence data
+# Plot occurrence data using ggplot
 ggplot() +
   geom_polygon(data=wrld, mapping=aes(x=long, y=lat, group=group), fill="grey75", colour="grey60")+
   geom_point(data=cleanSnail, mapping=aes(x=longitude, y=latitude), show.legend = FALSE) +
