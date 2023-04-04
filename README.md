@@ -66,7 +66,7 @@ The project uses the following additional R packages and versions (will be insta
 + `currentsdm.R`: code for generating the current species distribution model for _A. levettei_.
 + `dataacquisitioncleaning.R`: code for obtaining the GBIF data for _A. levettei_.
 + `futuresdm.R`: code for generating the future species distribution model for _A. levettei_, 70 years from now.
-+ `occurrencemap.R`: to create the occurrence map of the GBIF data for _A. levettei_.
++ `occurrencemap.R`: to create the occurrence map of the GBIF data for _A. levettei_. 
 
 ## Running the code
 Run the scripts in the following order:
