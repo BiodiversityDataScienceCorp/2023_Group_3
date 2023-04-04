@@ -23,14 +23,14 @@ library(spocc)
 cleanSnail <- read_csv("data/snaildata.csv")
 
 ### SECTION 2: Prepare data for plotting ###
-snailDataNotCoords <- cleanSnail %>%  #select only longitude and latitude 
+snailDataNotCoords <- cleanSnail %>%  #select only longitude and latitude using the select() function
   select(longitude,latitude)
 
 # Convert to spatial points, this is necessary for modelling and mapping
 snailDataSpatialPts <- SpatialPoints(snailDataNotCoords, 
                                      proj4string = CRS("+proj=longlat")) 
 
-# Obtain climate data required for plotting current SDM
+# Obtain climate data required for plotting current SDM ~ using worldclim
 currentEnv <- getData("worldclim", var="bio", res=2.5, path="data/") 
 
 # Create a list of the files in wc2-5 folder so we can make a raster stack
@@ -56,9 +56,9 @@ backgroundPoints <- randomPoints(mask = mask,
                                  extf = 1.25, 
                                  warn = 0) 
 
-colnames(backgroundPoints) <- c("longitude", "latitude") # add col names 
+colnames(backgroundPoints) <- c("longitude", "latitude") # add column names 
 
-# Data for observation sites (presence and background), with climate data
+# Get data for observation sites (presence and background) using climate data
 occEnv <- na.omit(raster::extract(x = clim, y = snailDataNotCoords))
 absenceEnv<- na.omit(raster::extract(x = clim, y = backgroundPoints))
 
@@ -94,6 +94,8 @@ ymax <- max(snailPredictDf$y)
 ymin <- min(snailPredictDf$y)
 
 ##dev.off() #use if ggplot is not working, otherwise this is not needed
+
+#create currentsdm using ggplot
 ggplot() +
   geom_polygon(data = wrld, mapping = aes(x = long, y = lat, group = group),
                fill = "grey75") +
