@@ -3,6 +3,8 @@
 #Synthesized from team member's individual scripts
 #Bailie Wynbelt, Hailey Park, Zoe Evans, Josie Graydon
 
+### CONSIDERATIONS ###
+#To run this script using posit cloud the RAM requirements need to be at least 5 GB
 
 ### SECTION 1: Download/load required packages and read in clean snail data ###
 
