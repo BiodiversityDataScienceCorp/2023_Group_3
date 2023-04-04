@@ -13,14 +13,32 @@ _A. levettei_ is primarily distinguished from other mountain range snails by its
 _A. levettei_ is an endangered species that is potentially up for a Species Status Assessment by the US Fish & Wildlife Service. This repository serves as a source for examining occurrences and generating current and future distribution models for _A. levettei_. Data gathered from the Global Biodiversity Information Facility (GBIF), an open-access source of biodiversity data from sources including iNaturalist, USGS, and museum collections, was utilized in this project. This project was done in collaboration between students of Lewis & Clark College and University of Arizona.
 
 ## 📦 Dependencies
-The project uses the following additional R packages (will be installed with file when needed):
-+ dismo
-+ maps
-+ maptools
-+ readr
-+ rJava
-+ spocc
-+ tidyverse
+The project uses the following additional R packages and versions (will be installed with file when needed):
++ base (4.2.2)
++ datasets (4.2.2)
++ dismo (1.3-9)
++ dplyr (1.1.0)
++ forcats (1.0.0)
++ ggplot2 (3.4.1)
++ graphics (4.2.2)
++ grDevices (4.2.2)
++ lubridate (1.9.2)
++ maps (3.4.1)
++ maptools (1.1-6)
++ methods (4.2.2)
++ purrr (1.0.1)
++ raster (3.6-20)
++ readr (2.1.4)
++ rJava (1.0.6)
++ sp (1.6-0)
++ spocc (1.2.1)
++ stats (4.2.2)
++ stringr (1.5.0)
++ tibble (3.2.0)
++ tidyr (1.3.0)
++ tidyverse (2.0.0)
++ usethis (2.1.6)
++ utils (4.2.2)
 
 ## 📁 Structure
 
@@ -48,7 +66,7 @@ The project uses the following additional R packages (will be installed with fil
 + `currentsdm.R`: code for generating the current species distribution model for _A. levettei_.
 + `dataacquisitioncleaning.R`: code for obtaining the GBIF data for _A. levettei_.
 + `futuresdm.R`: code for generating the future species distribution model for _A. levettei_, 70 years from now.
-+ `occurrencemap.R`: to create the occurrence map of the GBIF data for _A. levettei_.
++ `occurrencemap.R`: to create the occurrence map of the GBIF data for _A. levettei_. 
 
 ## Running the code
 Run the scripts in the following order:

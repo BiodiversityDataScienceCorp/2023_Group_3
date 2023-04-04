@@ -49,7 +49,7 @@ wrld <- ggplot2::map_data("world")
 ggplot() +
   geom_polygon(data=wrld, mapping=aes(x=long, y=lat, group=group), fill="grey75", colour="grey60")+
   geom_point(data=cleanSnail, mapping=aes(x=longitude, y=latitude), show.legend = FALSE) +
-  labs(title="Species Occurences of A. levettei", x="longitude", y="latitude") +
+  labs(title="Species Occurrences of A. levettei", x="longitude", y="latitude") +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax)) +
   scale_size_area() +
   borders("state")
