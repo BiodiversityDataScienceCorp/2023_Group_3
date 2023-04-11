@@ -88,6 +88,12 @@ snailPredictDf <- as.data.frame(raster.spdf)
 
 ### SECTION 4: Plot current SDM in ggplot ###
 wrld <- ggplot2::map_data("world")
+states <- ggplot2::map_data("state")
+
+state_label <- states %>%
+  group_by(region) %>%
+  summarize(mean_long = mean(range(long)),
+            mean_lat = mean(range(lat)))
 
 # Produce latitude and longitude boundaries
 xmax <- max(snailPredictDf$x)
@@ -106,10 +112,12 @@ ggplot() +
   coord_fixed(xlim = c(xmin, xmax), ylim = c(ymin, ymax), expand = F) + # expand = F fixes weird margin
   scale_size_area() +
   borders("state") +
+  geom_text(data=state_label, aes(x=mean_long, y=mean_lat, label=region)) +
   labs(title = "SDM of A. levettei Under \nCurrent Climate Conditions",
        x = "longitude",
        y = "latitude",
-       fill = "Environmental \nSuitability") + # \n is a line break
+       fill = "Environmental \nSuitability") + # \n is a line break +
+  geom_text(data=state_label, aes(x=mean_long, y=mean_lat, label=region)) +
   theme(legend.box.background=element_rect(),legend.box.margin=margin(5,5,5,5)) 
 
 ggsave(filename = "currentsnailSDM.jpg", 
