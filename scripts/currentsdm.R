@@ -88,6 +88,8 @@ snailPredictDf <- as.data.frame(raster.spdf)
 
 ### SECTION 4: Plot current SDM in ggplot ###
 wrld <- ggplot2::map_data("world")
+
+# Adding state variable from map_data to add state labels to SDM
 states <- ggplot2::map_data("state")
 
 state_label <- states %>%
