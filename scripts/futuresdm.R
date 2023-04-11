@@ -33,13 +33,48 @@ snailDataSpatialPts <- SpatialPoints(snailDataNotCoords,
                                      proj4string = CRS("+proj=longlat")) 
 
 # Create a list of the files in wc2-5 folder so we can make a raster stack
-climList <- list.files(path = "data/wc2-5/", pattern = ".bil$", 
-                       full.names = T) #create a list of the files in wc2-5 folder so we can make a raster stack
+#climList <- list.files(path = "data/wc2-5/", pattern = ".bil$", 
+                      # full.names = T) #create a list of the files in wc2-5 folder so we can make a raster stack
 
 # Stacking the bioclim variables to process them at one go
-clim <- raster::stack(climList) 
+#clim <- raster::stack(climList) 
 
+# load current climate data
+if(file.exists("data")){
+  dir.create("data/wc2-5")
+}else{
+  dir.create("data")
+  dir.create("data/wc2-5")
+}
 
+url<-"https://climatedata.watzekdi.net/bio_2-5m_bil.zip"
+destfile<-"data/wc2-5/bio_2-5m_bil.zip"
+
+message("Downloading climate data from WorldClim")
+download.file(url, destfile)
+message("Extracting current climate data (this may take a moment)")
+unzip(zipfile = "data/wc2-5/bio_2-5m_bil.zip", exdir="data/wc2-5/")
+file.remove("data/wc2-5/bio_2-5m_bil.zip")
+
+# load future climate data
+
+future<-c("forecast1.zip","forecast2.zip","forecast3.zip","forecast4.zip")
+
+#loops through the future vector, downloads and unzips each file
+for (file in future){
+  urlFuture<-paste("https://climatedata.watzekdi.net/",file, sep = "")
+  destfileFuture<-file
+  download.file(urlFuture, destfileFuture)
+  message("Extracting future climate data (this may take a moment)")
+  unzip(zipfile = file, exdir=".")
+  file.remove(file)
+}
+
+climList <- list.files(path = "data/wc2-5/", pattern = ".bil$", 
+                       full.names = T) #create a list of the files in wc2-5 folder so we can make a raster stack
+                       
+                       # Stacking the bioclim variables to process them at one go
+                       clim <- raster::stack(climList) 
 ### SECTION 2: Create pseudo-absence points and generate geographic extent for future SDM model ###
 
 # Mask is the raster object that determines the area where we are generating pts
@@ -76,10 +111,10 @@ predictExtent <- 1.25 * geographicExtent
 ### SECTION 3 : Use model to predict SDM of A. levettei under CMIP 5 Climate Conditions ###
 
 # This model is prediciting in 70 years based on current greenhouse gas emission trendss 
-futureEnv <- raster::getData(name = 'CMIP5', var = 'bio', res = 2.5,
-                             rcp = 45, model = 'IP', year = 70, path="data") 
+#futureEnv <- raster::getData(name = 'CMIP5', var = 'bio', res = 2.5,
+#                             rcp = 45, model = 'IP', year = 70, path="data") 
 
-names(futureEnv) = names(clim)
+names(future) = names(clim)
 
 # Crop clim to the extent of the map you want
 geographicAreaFutureC5 <- crop(futureEnv, predictExtent)
