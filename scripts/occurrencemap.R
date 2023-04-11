@@ -51,6 +51,8 @@ state_label <- states %>%
   summarize(mean_long = mean(range(long)),
             mean_lat = mean(range(lat)))
 
+state_label$region <- str_to_title(state_label$region)
+
 # Plot occurrence data using ggplot
 ggplot() +
   geom_polygon(data=wrld, mapping=aes(x=long, y=lat, group=group), fill="grey75", colour="grey60")+
