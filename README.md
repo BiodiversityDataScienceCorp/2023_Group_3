@@ -66,7 +66,9 @@ The project uses the following additional R packages and versions (will be insta
 + `currentsdm.R`: code for generating the current species distribution model for _A. levettei_.
 + `dataacquisitioncleaning.R`: code for obtaining the GBIF data for _A. levettei_.
 + `futuresdm.R`: code for generating the future species distribution model for _A. levettei_, 70 years from now.
++ `futuresdm_backup.R`: backup code for future SDM code created when the UC Davis clim data server was down. Includes a workaround created by Jeremy.
 + `occurrencemap.R`: to create the occurrence map of the GBIF data for _A. levettei_. 
++ `potentialerrors.Rmd`: includes potential errors that may occur when running the code, and what to do if one runs into such errors.
 
 ## Running the code
 Run the scripts in the following order:
