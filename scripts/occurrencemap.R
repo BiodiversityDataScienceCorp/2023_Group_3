@@ -38,10 +38,10 @@ cleanSnail <- snail %>%
 ### SECTION 2: Plot occurrences with ggplot ###
 
 # Set longitude and latitude boundaries for the occurrence map
-xmax <- max(cleanSnail$longitude)
-xmin <- min(cleanSnail$longitude)
-ymax <- max(cleanSnail$latitude)
-ymin <- min(cleanSnail$latitude)
+xmax <- max(cleanSnail$longitude) + 1
+xmin <- min(cleanSnail$longitude) - 1
+ymax <- max(cleanSnail$latitude) + 1
+ymin <- min(cleanSnail$latitude) - 1
 
 wrld <- ggplot2::map_data("world")
 states <- ggplot2::map_data("state")

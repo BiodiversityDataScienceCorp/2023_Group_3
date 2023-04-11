@@ -26,7 +26,7 @@ cleanSnail <- read_csv("data/snaildata.csv")
 
 ### SECTION 2: Prepare data for plotting ###
 snailDataNotCoords <- cleanSnail %>%  #select only longitude and latitude using the select() function
-  select(longitude,latitude)
+  dplyr::select(longitude,latitude)
 
 # Convert to spatial points, this is necessary for modelling and mapping
 snailDataSpatialPts <- SpatialPoints(snailDataNotCoords, 
@@ -74,7 +74,7 @@ snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf,
                           path=paste("output/maxent_outputs"), )
 
 # Create geographic extent points
-predictExtent <- 1.25 * geographicExtent
+predictExtent <- 1.75 * geographicExtent
 
 # Crop clim to the extent of the map
 geographicArea <- crop(clim, predictExtent, snap = "in")
