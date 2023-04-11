@@ -102,6 +102,8 @@ state_label <- states %>%
   summarize(mean_long = mean(range(long)),
             mean_lat = mean(range(lat)))
 
+state_label$region <- str_to_title(state_label$region)
+
 # Produce latitude and longitude boundaries
 xmax <- max(snailPredictDfFutureC5$x)
 xmin <- min(snailPredictDfFutureC5$x)
