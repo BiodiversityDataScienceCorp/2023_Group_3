@@ -106,13 +106,13 @@ snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf,
                           path=paste("output/maxent_outputs"), )
 
 # Create geographic extent points
-predictExtent <- 1.25 * geographicExtent
+predictExtent <- 1.75 * geographicExtent
 
 ### SECTION 3 : Use model to predict SDM of A. levettei under CMIP 5 Climate Conditions ###
 
 # This model is prediciting in 70 years based on current greenhouse gas emission trendss 
-#futureEnv <- raster::getData(name = 'CMIP5', var = 'bio', res = 2.5,
-#                             rcp = 45, model = 'IP', year = 70, path="data") 
+futureEnv <- raster::getData(name = 'CMIP5', var = 'bio', res = 2.5,
+                             rcp = 45, model = 'IP', year = 70, path="data") 
 
 names(future) = names(clim)
 
@@ -136,6 +136,8 @@ state_label <- states %>%
   group_by(region) %>%
   summarize(mean_long = mean(range(long)),
             mean_lat = mean(range(lat)))
+
+state_label$region <- str_to_title(state_label$region)
 
 # Produce latitude and longitude boundaries
 xmax <- max(snailPredictDfFutureC5$x)
