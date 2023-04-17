@@ -26,18 +26,11 @@ cleanSnail <- read_csv("data/snaildata.csv")
 
 ### SECTION 2: Prepare data for plotting ###
 snailDataNotCoords <- cleanSnail %>%  #select only longitude and latitude 
-  select(longitude,latitude)
+  dplyr::select(longitude,latitude)
 
 #Convert to spatial points, this is necessary for modelling and mapping
 snailDataSpatialPts <- SpatialPoints(snailDataNotCoords, 
                                      proj4string = CRS("+proj=longlat")) 
-
-# Create a list of the files in wc2-5 folder so we can make a raster stack
-#climList <- list.files(path = "data/wc2-5/", pattern = ".bil$", 
-                      # full.names = T) #create a list of the files in wc2-5 folder so we can make a raster stack
-
-# Stacking the bioclim variables to process them at one go
-#clim <- raster::stack(climList) 
 
 # load current climate data
 if(file.exists("data")){

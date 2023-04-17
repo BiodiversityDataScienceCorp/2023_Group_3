@@ -52,7 +52,7 @@ set.seed(45) # seed set so we get the same background points each time we run th
 backgroundPoints <- randomPoints(mask = mask, 
                                  n = 1000, 
                                  ext = geographicExtent, 
-                                 extf = 1.25, 
+                                 extf = 1.75, 
                                  warn = 0) 
 
 colnames(backgroundPoints) <- c("longitude", "latitude") # add col names 
