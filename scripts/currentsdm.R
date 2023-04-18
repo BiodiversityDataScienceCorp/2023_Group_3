@@ -92,6 +92,7 @@ wrld <- ggplot2::map_data("world")
 # Adding state variable from map_data to add state labels to SDM
 states <- ggplot2::map_data("state")
 
+# clean up labels so state names are spelled out and in title case
 state_label <- states %>%
   group_by(region) %>%
   summarize(mean_long = mean(range(long)),
@@ -124,6 +125,7 @@ ggplot() +
   geom_text(data=state_label, aes(x=mean_long, y=mean_lat, label=region)) +
   theme(legend.box.background=element_rect(),legend.box.margin=margin(5,5,5,5)) 
 
+# save the map as an image
 ggsave(filename = "currentsnailSDM.jpg", 
        plot=last_plot(), 
        path = "output", 

@@ -43,9 +43,12 @@ xmin <- min(cleanSnail$longitude) - 1
 ymax <- max(cleanSnail$latitude) + 1
 ymin <- min(cleanSnail$latitude) - 1
 
+# load in the world data for the map
 wrld <- ggplot2::map_data("world")
+# Adding state variable from map_data to add state labels to SDM
 states <- ggplot2::map_data("state")
 
+# clean up labels so state names are spelled out and in title case
 state_label <- states %>%
   group_by(region) %>%
   summarize(mean_long = mean(range(long)),
@@ -63,6 +66,7 @@ ggplot() +
   borders("state") +
   geom_text(data=state_label, aes(x=mean_long, y=mean_lat, label=region))
 
+#save the image
 ggsave(file="occurrencemap.jpg",
        plot=last_plot(), 
        path = "output", 
