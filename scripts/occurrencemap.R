@@ -28,10 +28,12 @@ noDupSn <- noNA %>%
 
 # All required data cleaning in one chunk of code
 #remove NA's in latitude and longitude with filter() function
+#remove any outliers in the latitude and longitude columns with the filter() function.
 #using the mutate() function, create a new column called location with longitude/latitude/dateIdentified that is seprated by /
 #keep only distinct locations with the distinct() function
 cleanSnail <- snail %>% 
   filter(latitude != "NA", longitude != "NA") %>%
+  filter(latitude <= 33, longitude <= -109) %>%
   mutate(location = paste(latitude, longitude, dateIdentified, sep = "/")) %>%
   distinct(location, .keep_all = TRUE)
 
