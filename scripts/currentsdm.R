@@ -74,7 +74,7 @@ snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf,
                           path=paste("output/maxent_outputs"), )
 
 # Create geographic extent points
-predictExtent <- 1.75 * geographicExtent
+predictExtent <- 3 * geographicExtent
 
 # Crop clim to the extent of the map
 geographicArea <- crop(clim, predictExtent, snap = "in")
