@@ -71,7 +71,7 @@ snailSDM <- dismo::maxent(x = presenceAbsenceEnvDf,
                           path=paste("output/maxent_outputs"), )
 
 # Create geographic extent points
-predictExtent <- 1.75 * geographicExtent
+predictExtent <- 3 * geographicExtent
 
 ### SECTION 3 : Use model to predict SDM of A. levettei under CMIP 5 Climate Conditions ###
 
