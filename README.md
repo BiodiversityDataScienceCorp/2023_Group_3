@@ -44,6 +44,7 @@ The project uses the following additional R packages and versions (will be insta
 
 ### data
 + `snaildata.csv`: data harvested from [GBIF](https://www.gbif.org/) and [iNaturalist](https://www.inaturalist.org) for _Ashmunella levettei_. 
++ It is important to note that this data has limited data points (53 recordings).
 
 ### homework
 + organization of each of our homeworks
@@ -76,3 +77,8 @@ Run the scripts in the following order:
 2. `occurrencemap.R`
 3. `currentsdm.R`
 4. `futuresdm.R`
+
+## Considerations
++ It is important to note that this data has limited data points (53 recordings). This is of concern specifially in the current and future SDM models
++ For the future, occurences recorded by museums could be considered and surveys should be completed to better understand the distribution of_A. levettei_.
++ Current and future SDM models should be completed with updated recordings of _A. levettei_.
