@@ -79,6 +79,6 @@ Run the scripts in the following order:
 4. `futuresdm.R`
 
 ## Considerations
-+ It is important to note that this data has limited data points (53 recordings). This is of concern specifially in the current and future SDM models
-+ For the future, occurences recorded by museums could be considered and surveys should be completed to better understand the distribution of_A. levettei_.
++ It is important to note that this data has limited data points (53 recordings). This is of concern specifially in the current and future SDM models.
++ For the future, occurences recorded by museums could be considered and surveys should be completed to better understand the distribution of _A. levettei_.
 + Current and future SDM models should be completed with updated recordings of _A. levettei_.
